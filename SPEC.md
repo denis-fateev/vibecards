@@ -492,9 +492,8 @@ Dashboard должен предоставлять краткое описани�
 Предпочтительный стек:
 
 - **Frontend:** React + TypeScript.
-- **Framework:** Next.js.
 - **UI:** styled-components
-- **Database:** IndexDB и Postgres на Supabase
+- **Database:** IndexDB и Postgres на Supabase (пока заглушка)
 - **State management:** TanStack Query для серверных данных, локальный React state для UI.
 - **Архитектура:** Feature-sliced design (FSD)
 - **Код style:** ESlint, Prettier 2 пробела, одинарные кавычки
