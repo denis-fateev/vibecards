@@ -22,9 +22,19 @@ const Root = styled.li`
 
 const HeaderRow = styled.div`
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
   gap: 12px;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+`;
+
+const SetInfo = styled.div`
+  min-width: 0;
 `;
 
 const SetTitleLink = styled(Link)`
@@ -46,7 +56,7 @@ const SetMeta = styled.div`
 
 const Actions = styled.div`
   display: flex;
-  flex-shrink: 0;
+  flex-wrap: wrap;
   gap: 6px;
 `;
 
@@ -195,13 +205,13 @@ export function StudySetListItem({ set }: StudySetListItemProps) {
   return (
     <Root>
       <HeaderRow>
-        <div>
+        <SetInfo>
           <SetTitleLink to={studySetCardsRoute(set.id)}>{set.title}</SetTitleLink>
           <SetMeta>
             {set.cardCount} карточек
             {set.description ? ` · ${set.description}` : ''}
           </SetMeta>
-        </div>
+        </SetInfo>
         <Actions>
           <ActionLink to={flashcardsSessionRoute(set.id)}>Учить</ActionLink>
           <ActionLink to={studySetCardsRoute(set.id)}>Редактор</ActionLink>

@@ -16,8 +16,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Nika',
-        short_name: 'Nika',
+        name: 'Никарточки',
+        short_name: 'Никарточки',
         description:
           'Персональное приложение для запоминания слов и карточек',
         theme_color: '#3b6fd9',
