@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useSetCards } from '@/entities/card/api/queries';
 import { useStudySetSummaries } from '@/entities/study-set/api/queries';
 import { SetCardsEditor } from '@/features/edit-set-cards';
-import { routes } from '@/shared/config/routes';
+import { flashcardsSessionRoute, routes } from '@/shared/config/routes';
 import { Card } from '@/shared/ui/Card';
 import { SectionTitle } from '@/shared/ui/SectionTitle';
 
@@ -39,6 +39,24 @@ const Empty = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
+const StudyLink = styled(Link)`
+  display: inline-flex;
+  margin-bottom: 16px;
+  margin-left: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.accent};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const TopLinks = styled.div`
+  margin-bottom: 16px;
+`;
+
 export function StudySetCardsPage() {
   const { setId = '' } = useParams<{ setId: string }>();
   const { data: sets = [] } = useStudySetSummaries();
@@ -62,7 +80,12 @@ export function StudySetCardsPage() {
 
   return (
     <>
-      <BackLink to={routes.library}>← Библиотека</BackLink>
+      <TopLinks>
+        <BackLink to={routes.library}>← Библиотека</BackLink>
+        {cards.length > 0 && (
+          <StudyLink to={flashcardsSessionRoute(setId)}>Учить карточки →</StudyLink>
+        )}
+      </TopLinks>
       <PageTitle>{title}</PageTitle>
       <PageLead>
         Редактирование карточек в наборе. Изменения сохраняются автоматически.

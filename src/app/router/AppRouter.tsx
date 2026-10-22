@@ -3,6 +3,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppShellLayout } from '@/app/layout/AppShellLayout';
 import { DashboardPage } from '@/pages/dashboard';
 import { LibraryPage } from '@/pages/library';
+import { FlashcardsPage } from '@/pages/flashcards';
+import { FlashcardsSessionPage } from '@/pages/flashcards-session';
 import { StudySetCardsPage } from '@/pages/study-set-cards';
 import { PlaceholderPage } from '@/pages/placeholder';
 import { mainNavigation } from '@/shared/config/navigation';
@@ -16,9 +18,17 @@ export function AppRouter() {
           <Route index element={<DashboardPage />} />
           <Route path={routes.library.slice(1)} element={<LibraryPage />} />
           <Route path="library/:setId/cards" element={<StudySetCardsPage />} />
+          <Route path={routes.flashcards.slice(1)} element={<FlashcardsPage />} />
+          <Route
+            path="flashcards/:setId"
+            element={<FlashcardsSessionPage />}
+          />
           {mainNavigation
             .filter(
-              (item) => item.id !== 'dashboard' && item.id !== 'library',
+              (item) =>
+                item.id !== 'dashboard' &&
+                item.id !== 'library' &&
+                item.id !== 'flashcards',
             )
             .map((item) => (
               <Route

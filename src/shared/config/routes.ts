@@ -14,3 +14,7 @@ export const routes: Record<NavItemId, string> = {
 export function studySetCardsRoute(setId: string): string {
   return `/library/${setId}/cards`;
 }
+
+export function flashcardsSessionRoute(setId: string): string {
+  return `/flashcards/${setId}`;
+}
