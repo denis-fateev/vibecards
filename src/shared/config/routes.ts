@@ -18,3 +18,7 @@ export function studySetCardsRoute(setId: string): string {
 export function flashcardsSessionRoute(setId: string): string {
   return `/flashcards/${setId}`;
 }
+
+export function learnSessionRoute(setId: string): string {
+  return `/learn/${setId}`;
+}

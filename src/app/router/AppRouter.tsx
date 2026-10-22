@@ -5,6 +5,8 @@ import { DashboardPage } from '@/pages/dashboard';
 import { LibraryPage } from '@/pages/library';
 import { FlashcardsPage } from '@/pages/flashcards';
 import { FlashcardsSessionPage } from '@/pages/flashcards-session';
+import { LearnPage } from '@/pages/learn';
+import { LearnSessionPage } from '@/pages/learn-session';
 import { StudySetCardsPage } from '@/pages/study-set-cards';
 import { PlaceholderPage } from '@/pages/placeholder';
 import { getAppBasename } from '@/shared/config/appBasename';
@@ -24,12 +26,15 @@ export function AppRouter() {
             path="flashcards/:setId"
             element={<FlashcardsSessionPage />}
           />
+          <Route path={routes.learn.slice(1)} element={<LearnPage />} />
+          <Route path="learn/:setId" element={<LearnSessionPage />} />
           {mainNavigation
             .filter(
               (item) =>
                 item.id !== 'dashboard' &&
                 item.id !== 'library' &&
-                item.id !== 'flashcards',
+                item.id !== 'flashcards' &&
+                item.id !== 'learn',
             )
             .map((item) => (
               <Route

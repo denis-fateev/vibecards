@@ -1,0 +1,1 @@
+export const LEARN_CORRECT_HIGHLIGHT_MS = 480;

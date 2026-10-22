@@ -51,8 +51,8 @@ export function LibraryPage() {
     <>
       <PageTitle>Библиотека</PageTitle>
       <PageLead>
-        Наборы карточек и импорт из CSV или TSV. При первом запуске добавлен
-        тестовый набор C2 Vocabulary на 40 слов.
+        Наборы карточек и импорт из CSV или TSV. При первом запуске добавлены
+        тестовые наборы C2 Vocabulary (40 слов) и Animals (3 слова).
       </PageLead>
 
       <Layout>

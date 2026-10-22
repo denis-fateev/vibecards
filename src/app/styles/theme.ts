@@ -7,6 +7,8 @@ export const theme = {
     border: '#e4e7ec',
     accent: '#3b6fd9',
     accentMuted: '#e8eef9',
+    success: '#15803d',
+    danger: '#b42318',
   },
   radius: {
     sm: '8px',
