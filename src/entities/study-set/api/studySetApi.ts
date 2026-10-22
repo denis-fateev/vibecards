@@ -1,3 +1,4 @@
+import { deleteCardFlashcardRating } from '@/entities/card-rating/api/cardRatingApi';
 import type { CardDraft } from '@/entities/card/model/types';
 import type { StudySet, StudySetSummary } from '@/entities/study-set/model/types';
 import { db } from '@/shared/db/db';
@@ -145,15 +146,26 @@ export async function deleteStudySet(id: string): Promise<void> {
   const links = await db.setCards.where('setId').equals(id).toArray();
   const cardIds = links.map((l) => l.cardId);
 
-  await db.transaction('rw', db.studySets, db.setCards, db.cards, async () => {
-    await db.setCards.where('setId').equals(id).delete();
-    await db.studySets.delete(id);
+  await db.transaction(
+    'rw',
+    db.studySets,
+    db.setCards,
+    db.cards,
+    db.cardRatings,
+    async () => {
+      await db.setCards.where('setId').equals(id).delete();
+      await db.studySets.delete(id);
 
-    for (const cardId of cardIds) {
-      const remaining = await db.setCards.where('cardId').equals(cardId).count();
-      if (remaining === 0) {
-        await db.cards.delete(cardId);
+      for (const cardId of cardIds) {
+        const remaining = await db.setCards
+          .where('cardId')
+          .equals(cardId)
+          .count();
+        if (remaining === 0) {
+          await db.cards.delete(cardId);
+          await deleteCardFlashcardRating(cardId);
+        }
       }
-    }
-  });
+    },
+  );
 }

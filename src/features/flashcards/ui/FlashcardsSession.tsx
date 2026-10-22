@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 import type { SetCardRow } from '@/entities/card/api/cardApi';
+import { useSaveCardFlashcardRatingMutation } from '@/entities/card-rating/api/queries';
 import { useFlashcardsSession } from '@/features/flashcards/lib/useFlashcardsSession';
+import type { FlashcardRating } from '@/features/flashcards/model/types';
 import { FlashcardFlipCard } from '@/features/flashcards/ui/FlashcardFlipCard';
 import { FlashcardsComplete } from '@/features/flashcards/ui/FlashcardsComplete';
 import { Button } from '@/shared/ui/Button';
@@ -87,6 +89,7 @@ export function FlashcardsSession({
   cards,
 }: FlashcardsSessionProps) {
   const session = useFlashcardsSession({ cards });
+  const saveRating = useSaveCardFlashcardRatingMutation();
 
   const {
     direction,
@@ -107,6 +110,17 @@ export function FlashcardsSession({
     resetSession,
     deck,
   } = session;
+
+  const handleRate = useCallback(
+    (rating: FlashcardRating) => {
+      const cardId = currentCard?.id;
+      rateCard(rating);
+      if (cardId) {
+        void saveRating.mutateAsync({ cardId, rating });
+      }
+    },
+    [currentCard?.id, rateCard, saveRating],
+  );
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -135,11 +149,11 @@ export function FlashcardsSession({
           break;
         case '1':
           e.preventDefault();
-          rateCard('dont-know');
+          handleRate('dont-know');
           break;
         case '2':
           e.preventDefault();
-          rateCard('know');
+          handleRate('know');
           break;
         default:
           break;
@@ -148,7 +162,7 @@ export function FlashcardsSession({
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [goNext, goPrev, phase, rateCard, toggleFlip]);
+  }, [goNext, goPrev, handleRate, phase, toggleFlip]);
 
   if (cards.length === 0) {
     return <Empty>В наборе нет карточек. Добавьте слова в библиотеке.</Empty>;
@@ -217,10 +231,10 @@ export function FlashcardsSession({
           </Button>
         </Row>
         <Row>
-          <Button variant="secondary" onClick={() => rateCard('dont-know')}>
+          <Button variant="secondary" onClick={() => handleRate('dont-know')}>
             Не знаю
           </Button>
-          <Button onClick={() => rateCard('know')}>Знаю</Button>
+          <Button onClick={() => handleRate('know')}>Знаю</Button>
         </Row>
       </Controls>
 

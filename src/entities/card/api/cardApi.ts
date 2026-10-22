@@ -1,3 +1,4 @@
+import { deleteCardFlashcardRating } from '@/entities/card-rating/api/cardRatingApi';
 import type { Card } from '@/entities/card/model/types';
 import { db } from '@/shared/db/db';
 
@@ -100,12 +101,20 @@ export async function removeCardFromSet(
     throw new Error('Карточка не найдена в наборе');
   }
 
-  await db.transaction('rw', db.studySets, db.setCards, db.cards, async () => {
-    await db.setCards.delete([setId, cardId]);
-    const remaining = await db.setCards.where('cardId').equals(cardId).count();
-    if (remaining === 0) {
-      await db.cards.delete(cardId);
-    }
-    await db.studySets.update(setId, { updatedAt: Date.now() });
-  });
+  await db.transaction(
+    'rw',
+    db.studySets,
+    db.setCards,
+    db.cards,
+    db.cardRatings,
+    async () => {
+      await db.setCards.delete([setId, cardId]);
+      const remaining = await db.setCards.where('cardId').equals(cardId).count();
+      if (remaining === 0) {
+        await db.cards.delete(cardId);
+        await deleteCardFlashcardRating(cardId);
+      }
+      await db.studySets.update(setId, { updatedAt: Date.now() });
+    },
+  );
 }

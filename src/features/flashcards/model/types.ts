@@ -7,7 +7,7 @@ export type FlashcardItem = {
 
 export type FlashcardDirection = 'term-to-definition' | 'definition-to-term';
 
-export type FlashcardRating = 'know' | 'dont-know';
+export type { CardFlashcardRatingValue as FlashcardRating } from '@/entities/card-rating/model/types';
 
 export type FlashcardsSessionStats = {
   totalViewed: number;

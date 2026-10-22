@@ -1,5 +1,6 @@
 import Dexie, { type Table } from 'dexie';
 
+import type { CardFlashcardRating } from '@/entities/card-rating/model/types';
 import type { Card } from '@/entities/card/model/types';
 import type { StudySet } from '@/entities/study-set/model/types';
 
@@ -13,6 +14,7 @@ class NikaDatabase extends Dexie {
   studySets!: Table<StudySet>;
   cards!: Table<Card>;
   setCards!: Table<SetCard, [string, string]>;
+  cardRatings!: Table<CardFlashcardRating, string>;
 
   constructor() {
     super('nika');
@@ -20,6 +22,12 @@ class NikaDatabase extends Dexie {
       studySets: 'id, updatedAt',
       cards: 'id, updatedAt',
       setCards: '[setId+cardId], setId, cardId',
+    });
+    this.version(2).stores({
+      studySets: 'id, updatedAt',
+      cards: 'id, updatedAt',
+      setCards: '[setId+cardId], setId, cardId',
+      cardRatings: 'cardId, rating, ratedAt',
     });
   }
 }
