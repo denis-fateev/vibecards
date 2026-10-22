@@ -1,8 +1,10 @@
 import type { ReactNode } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { APP_NAME } from '@/shared/config/app';
 import { mainNavigation } from '@/shared/config/navigation';
+import { routes } from '@/shared/config/routes';
 
 type AppShellProps = {
   children: ReactNode;
@@ -33,11 +35,13 @@ const HeaderInner = styled.div`
   gap: 24px;
 `;
 
-const Logo = styled.span`
+const LogoLink = styled(NavLink)`
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: -0.02em;
   white-space: nowrap;
+  color: inherit;
+  text-decoration: none;
 `;
 
 const Nav = styled.nav`
@@ -52,19 +56,30 @@ const Nav = styled.nav`
   }
 `;
 
-const NavButton = styled.button<{ $active?: boolean }>`
+const NavItemLink = styled(NavLink)`
   flex-shrink: 0;
   border: none;
   border-radius: ${({ theme }) => theme.radius.sm};
   padding: 8px 12px;
-  cursor: ${({ $active }) => ($active ? 'default' : 'not-allowed')};
-  color: ${({ theme, $active }) =>
-    $active ? theme.colors.accent : theme.colors.textMuted};
-  background: ${({ theme, $active }) =>
-    $active ? theme.colors.accentMuted : 'transparent'};
+  cursor: pointer;
+  text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
-  opacity: ${({ $active }) => ($active ? 1 : 0.75)};
+  color: ${({ theme }) => theme.colors.textMuted};
+  background: transparent;
+  opacity: 0.85;
+
+  &.active {
+    color: ${({ theme }) => theme.colors.accent};
+    background: ${({ theme }) => theme.colors.accentMuted};
+    opacity: 1;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.accent};
+    outline-offset: 2px;
+  }
 `;
 
 const Main = styled.main`
@@ -80,18 +95,16 @@ export function AppShell({ children }: AppShellProps) {
     <Root>
       <Header>
         <HeaderInner>
-          <Logo>{APP_NAME}</Logo>
+          <LogoLink to={routes.dashboard} end>{APP_NAME}</LogoLink>
           <Nav aria-label="Основные разделы">
             {mainNavigation.map((item) => (
-              <NavButton
+              <NavItemLink
                 key={item.id}
-                type="button"
-                $active={item.id === 'dashboard'}
-                disabled={item.id !== 'dashboard'}
-                aria-current={item.id === 'dashboard' ? 'page' : undefined}
+                to={routes[item.id]}
+                end={item.id === 'dashboard'}
               >
                 {item.label}
-              </NavButton>
+              </NavItemLink>
             ))}
           </Nav>
         </HeaderInner>

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-import { AppShell } from '@/widgets/app-shell';
 import { DashboardActivity } from '@/widgets/dashboard-activity';
 import { DashboardContinueLearning } from '@/widgets/dashboard-continue-learning';
 import { DashboardProgress } from '@/widgets/dashboard-progress';
@@ -51,7 +50,7 @@ const Grid = styled.div`
 
 export function DashboardPage() {
   return (
-    <AppShell>
+    <>
       <PageTitle>Главная</PageTitle>
       <PageLead>Краткий обзор прогресса и быстрый доступ к обучению.</PageLead>
       <Grid>
@@ -61,6 +60,6 @@ export function DashboardPage() {
         <DashboardActivity />
         <DashboardQuickActions />
       </Grid>
-    </AppShell>
+    </>
   );
 }

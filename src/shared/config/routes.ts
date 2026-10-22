@@ -1,0 +1,12 @@
+import type { NavItemId } from '@/shared/config/navigation';
+
+export const routes: Record<NavItemId, string> = {
+  dashboard: '/',
+  library: '/library',
+  flashcards: '/flashcards',
+  learn: '/learn',
+  test: '/test',
+  match: '/match',
+  statistics: '/statistics',
+  settings: '/settings',
+};

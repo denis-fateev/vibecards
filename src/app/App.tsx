@@ -1,10 +1,10 @@
 import { AppProviders } from '@/app/providers/AppProviders';
-import { DashboardPage } from '@/pages/dashboard';
+import { AppRouter } from '@/app/router/AppRouter';
 
 export function App() {
   return (
     <AppProviders>
-      <DashboardPage />
+      <AppRouter />
     </AppProviders>
   );
 }
