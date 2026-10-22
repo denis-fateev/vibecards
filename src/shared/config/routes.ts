@@ -10,3 +10,7 @@ export const routes: Record<NavItemId, string> = {
   statistics: '/statistics',
   settings: '/settings',
 };
+
+export function studySetCardsRoute(setId: string): string {
+  return `/library/${setId}/cards`;
+}

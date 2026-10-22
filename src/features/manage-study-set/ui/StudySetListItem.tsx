@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -6,6 +7,7 @@ import {
   useUpdateStudySetMutation,
 } from '@/entities/study-set/api/queries';
 import type { StudySetSummary } from '@/entities/study-set/model/types';
+import { studySetCardsRoute } from '@/shared/config/routes';
 import { Button } from '@/shared/ui/Button';
 
 const Root = styled.li`
@@ -25,9 +27,15 @@ const HeaderRow = styled.div`
   gap: 12px;
 `;
 
-const SetTitle = styled.div`
+const SetTitleLink = styled(Link)`
   font-weight: 600;
   font-size: 0.9375rem;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accent};
+  }
 `;
 
 const SetMeta = styled.div`
@@ -40,6 +48,25 @@ const Actions = styled.div`
   display: flex;
   flex-shrink: 0;
   gap: 6px;
+`;
+
+const ActionLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.radius.sm};
+  padding: 8px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.text};
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.accent};
+    outline-offset: 2px;
+  }
 `;
 
 const EditForm = styled.div`
@@ -169,13 +196,14 @@ export function StudySetListItem({ set }: StudySetListItemProps) {
     <Root>
       <HeaderRow>
         <div>
-          <SetTitle>{set.title}</SetTitle>
+          <SetTitleLink to={studySetCardsRoute(set.id)}>{set.title}</SetTitleLink>
           <SetMeta>
             {set.cardCount} карточек
             {set.description ? ` · ${set.description}` : ''}
           </SetMeta>
         </div>
         <Actions>
+          <ActionLink to={studySetCardsRoute(set.id)}>Карточки</ActionLink>
           <Button variant="ghost" onClick={startEdit}>
             Изменить
           </Button>

@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AppShellLayout } from '@/app/layout/AppShellLayout';
 import { DashboardPage } from '@/pages/dashboard';
 import { LibraryPage } from '@/pages/library';
+import { StudySetCardsPage } from '@/pages/study-set-cards';
 import { PlaceholderPage } from '@/pages/placeholder';
 import { mainNavigation } from '@/shared/config/navigation';
 import { routes } from '@/shared/config/routes';
@@ -14,6 +15,7 @@ export function AppRouter() {
         <Route element={<AppShellLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path={routes.library.slice(1)} element={<LibraryPage />} />
+          <Route path="library/:setId/cards" element={<StudySetCardsPage />} />
           {mainNavigation
             .filter(
               (item) => item.id !== 'dashboard' && item.id !== 'library',
