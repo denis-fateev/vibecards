@@ -7,12 +7,13 @@ import { FlashcardsPage } from '@/pages/flashcards';
 import { FlashcardsSessionPage } from '@/pages/flashcards-session';
 import { StudySetCardsPage } from '@/pages/study-set-cards';
 import { PlaceholderPage } from '@/pages/placeholder';
+import { getAppBasename } from '@/shared/config/appBasename';
 import { mainNavigation } from '@/shared/config/navigation';
 import { routes } from '@/shared/config/routes';
 
 export function AppRouter() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={getAppBasename()}>
       <Routes>
         <Route element={<AppShellLayout />}>
           <Route index element={<DashboardPage />} />

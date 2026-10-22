@@ -1,32 +1,33 @@
-# React + TypeScript + Vite
+# Nika
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Персональное приложение для запоминания слов и карточек (React + Vite + IndexedDB).
 
-Currently, two official plugins are available:
+## Разработка
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## GitHub Pages
+
+Да, **GitHub Pages подходит**: сайт отдаётся по HTTPS, этого достаточно для PWA и service worker на iOS.
+
+1. В репозитории: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Запушьте в ветку `main` — workflow `.github/workflows/deploy-pages.yml` соберёт проект и опубликует `dist`.
+3. URL проекта: `https://<user>.github.io/<имя-репозитория>/` (для репозитория `quizlet2` — `https://<user>.github.io/quizlet2/`).
+
+Базовый путь берётся из имени репозитория (`VITE_BASE_PATH`). Локальная проверка production-сборки с тем же путём:
+
+```bash
+VITE_BASE_PATH=/quizlet2/ npm run build
+npm run preview
+```
+
+Если репозиторий опубликован как **user/org site** с корня (`username.github.io` без подпапки), задайте при сборке `VITE_BASE_PATH=/`.
+
+### PWA на iPhone
+
+1. Откройте опубликованный URL в **Safari**.
+2. **Поделиться → На экран «Домой»**.
+3. Запускайте с иконки — приложение откроется в standalone-режиме. Данные остаются в IndexedDB на устройстве.
