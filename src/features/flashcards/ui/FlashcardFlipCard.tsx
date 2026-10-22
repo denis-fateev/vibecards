@@ -4,6 +4,10 @@ import type {
   FlashcardDirection,
   FlashcardItem,
 } from '@/features/flashcards/model/types';
+import {
+  isSpeechSynthesisSupported,
+  speakEnglish,
+} from '@/shared/lib/speakEnglish';
 
 type FlashcardFlipCardProps = {
   card: FlashcardItem;
@@ -90,10 +94,9 @@ const Hint = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-const DifficultButton = styled.button<{ $active: boolean }>`
+const CornerButton = styled.button<{ $active?: boolean }>`
   position: absolute;
   top: 12px;
-  right: 12px;
   z-index: 2;
   border: none;
   border-radius: ${({ theme }) => theme.radius.sm};
@@ -109,6 +112,14 @@ const DifficultButton = styled.button<{ $active: boolean }>`
     outline: 2px solid ${({ theme }) => theme.colors.accent};
     outline-offset: 2px;
   }
+`;
+
+const DifficultButton = styled(CornerButton)`
+  right: 12px;
+`;
+
+const SpeakButton = styled(CornerButton)`
+  left: 12px;
 `;
 
 const Wrapper = styled.div`
@@ -131,6 +142,16 @@ function backLabel(direction: FlashcardDirection): string {
   return direction === 'term-to-definition' ? 'Перевод' : 'Термин';
 }
 
+function isTermSideVisible(
+  direction: FlashcardDirection,
+  flipped: boolean,
+): boolean {
+  if (direction === 'term-to-definition') return !flipped;
+  return flipped;
+}
+
+const speechAvailable = isSpeechSynthesisSupported();
+
 export function FlashcardFlipCard({
   card,
   direction,
@@ -139,8 +160,23 @@ export function FlashcardFlipCard({
   onFlip,
   onToggleDifficult,
 }: FlashcardFlipCardProps) {
+  const showSpeak =
+    speechAvailable && isTermSideVisible(direction, flipped);
+
   return (
     <Wrapper>
+      {showSpeak ? (
+        <SpeakButton
+          type="button"
+          aria-label="Прослушать произношение"
+          onClick={(e) => {
+            e.stopPropagation();
+            speakEnglish(card.term);
+          }}
+        >
+          🔊 Озвучить
+        </SpeakButton>
+      ) : null}
       <DifficultButton
         type="button"
         $active={isDifficult}
