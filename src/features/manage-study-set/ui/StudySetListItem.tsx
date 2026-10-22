@@ -7,7 +7,10 @@ import {
   useUpdateStudySetMutation,
 } from '@/entities/study-set/api/queries';
 import type { StudySetSummary } from '@/entities/study-set/model/types';
-import { flashcardsSessionRoute, studySetCardsRoute } from '@/shared/config/routes';
+import {
+  flashcardsSessionRoute,
+  studySetCardsRoute,
+} from '@/shared/config/routes';
 import { Button } from '@/shared/ui/Button';
 
 const Root = styled.li`
@@ -206,7 +209,9 @@ export function StudySetListItem({ set }: StudySetListItemProps) {
     <Root>
       <HeaderRow>
         <SetInfo>
-          <SetTitleLink to={studySetCardsRoute(set.id)}>{set.title}</SetTitleLink>
+          <SetTitleLink to={studySetCardsRoute(set.id)}>
+            {set.title}
+          </SetTitleLink>
           <SetMeta>
             {set.cardCount} карточек
             {set.description ? ` · ${set.description}` : ''}
@@ -214,7 +219,7 @@ export function StudySetListItem({ set }: StudySetListItemProps) {
         </SetInfo>
         <Actions>
           <ActionLink to={flashcardsSessionRoute(set.id)}>Учить</ActionLink>
-          <ActionLink to={studySetCardsRoute(set.id)}>Редактор</ActionLink>
+          <ActionLink to={studySetCardsRoute(set.id)}>Редактор слов</ActionLink>
           <Button variant="ghost" onClick={startEdit}>
             Изменить
           </Button>
